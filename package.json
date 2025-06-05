@@ -1,0 +1,23 @@
+{
+  "name": "upx5_team_availability",
+  "version": "1.0.0",
+  "description": "System to avail workers performance on home office or hybrid work regime",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "prisma generate",
+    "dev": "cd ./src && node index.js"
+  },
+  "author": "Nickolas Muzzi",
+  "license": "ISC",
+  "devDependencies": {
+    "prisma": "^6.9.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.9.0",
+    "@prisma/extension-accelerate": "^2.0.1",
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  }
+}

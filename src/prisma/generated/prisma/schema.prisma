@@ -1,0 +1,78 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model answers {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id    String?   @db.Uuid
+  form_id    String?   @db.Uuid
+  send_date  DateTime? @db.Date
+  created_at DateTime? @db.Date
+  form       form?     @relation(fields: [form_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users      users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model company {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name       String?   @db.VarChar(255)
+  cnpj       String?   @db.VarChar(14)
+  category   String?   @db.VarChar(255)
+  forms      String?   @db.VarChar(255)
+  created_at DateTime? @db.Date
+  form       form[]
+  users      users[]
+}
+
+model form {
+  id             String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title          String?          @db.VarChar(255)
+  company_id     String?          @db.Uuid
+  created_at     DateTime?        @db.Date
+  answers        answers[]
+  company        company?         @relation(fields: [company_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  form_questions form_questions[]
+}
+
+model form_questions {
+  id          String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  question_id String?    @db.Uuid
+  form_id     String?    @db.Uuid
+  created_at  DateTime?  @db.Date
+  form        form?      @relation(fields: [form_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  questions   questions? @relation(fields: [question_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model questions {
+  id             String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  question_text  String?
+  type           String?          @db.VarChar(255)
+  created_at     DateTime?        @db.Date
+  form_questions form_questions[]
+}
+
+model users {
+  id                                         String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                                       String?      @db.VarChar(255)
+  email                                      String?      @db.VarChar(255)
+  password                                   String?      @db.VarChar(255)
+  cpf                                        String?      @db.VarChar(11)
+  companyId                                  String?      @db.Uuid
+  work_regime                                Int?
+  created_at                                 DateTime?    @db.Date
+  answers                                    answers[]
+  company                                    company?     @relation(fields: [companyId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  work_regime_users_work_regimeTowork_regime work_regime? @relation("users_work_regimeTowork_regime", fields: [work_regime], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model work_regime {
+  id                                   Int       @id @default(autoincrement())
+  name                                 String?   @db.VarChar(255)
+  created_at                           DateTime? @db.Date
+  users_users_work_regimeTowork_regime users[]   @relation("users_work_regimeTowork_regime")
+}
