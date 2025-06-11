@@ -6,6 +6,8 @@ import { router as workRegimeRoutes } from './routes/workRegimeRoutes.js'
 import { router as questionsRoutes } from './routes/questionsRoutes'
 import { router as formRoutes } from './routes/formRoutes'
 import { router as companyRoutes } from './routes/companyRoutes'
+import { router as formQuestionsRoutes } from './routes/formQuestionsRoutes'
+import { router as answersRoutes } from './routes/answersRoutes.js'
 
 const app = express()
 const port = 8000
@@ -20,6 +22,8 @@ app.use( '/work_regime', workRegimeRoutes )
 app.use( '/form', formRoutes )
 app.use( '/questions', questionsRoutes )
 app.use( '/company', companyRoutes )
+app.use( '/form_questions', formQuestionsRoutes )
+app.use( '/answers', answersRoutes )
 
 
 app.listen( port, () => {
