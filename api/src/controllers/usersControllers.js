@@ -4,6 +4,7 @@ import {
     createUser,
     updateUserById,
     deleteUserById,
+    getUserByEmail
 } from '#services/usersService.js'
 
 const getAllUsersController = async ( req, res ) => {
@@ -18,6 +19,14 @@ const getAllUsersController = async ( req, res ) => {
 const getUserByIdController = async ( req, res ) => {
     try {
         const user = await getUserById( req.params.id )
+        return res.status( 200 ).json( { data: user } )
+    } catch ( error ) {
+        return res.status( 500 ).json( { error: error.message } )
+    }
+}
+const getUserByEmailController = async ( req, res ) => {
+    try {
+        const user = await getUserByEmail( req.body.email )
         return res.status( 200 ).json( { data: user } )
     } catch ( error ) {
         return res.status( 500 ).json( { error: error.message } )

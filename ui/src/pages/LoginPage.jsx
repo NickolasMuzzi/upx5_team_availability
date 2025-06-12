@@ -3,7 +3,16 @@ import styled from "styled-components";
 import { Formik, Form } from "formik";
 import loginVideo from "../assets/login_video.mp4";
 import Input from "../components/Input";
+import Button from "@mui/material/Button";
+import { toast } from "react-toastify";
 const LoginPage = ({ className }) => {
+
+  const handleLogin = () => {
+    localStorage.setItem("logged", true);
+    toast.success("Seja bem vindo!");
+    setTimeout(() => window.location.reload(), 1000);
+  };
+
   return (
     <div className={className}>
       <div className="formContainer">
@@ -23,9 +32,13 @@ const LoginPage = ({ className }) => {
             <div className="title">
               <h2>Seja Bem Vindo!</h2>
               <span>Preencha o formulário abaixo para realizar seu login</span>
-              <div className="fields">
-                <Input name="login" />
-              </div>
+            </div>
+            <div className="fields">
+              <Input name="login" placeholder="Email" />
+              <Input name="password" type="password" placeholder="Senha" />
+              <Button variant="contained" onClick={() => handleLogin()}>
+                Enviar
+              </Button>
             </div>
           </Form>
         </Formik>
@@ -47,12 +60,27 @@ export default styled(LoginPage)`
     box-shadow: 10px 10px 20px #ccd3d9, -10px -10px 20px #ffffff;
     display: flex;
     flex-direction: row;
+    align-items: center;
     form {
       width: 60%;
+      height: 100%;
       padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
       .title {
         width: 100%;
         text-align: center;
+      }
+      .fields {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
       }
     }
   }

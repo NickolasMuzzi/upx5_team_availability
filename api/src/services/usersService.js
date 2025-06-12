@@ -10,6 +10,13 @@ export const getUserById = async ( userId ) => {
         }
     } )
 }
+export const getUserByEmail = async ( userEmail ) => {
+    return prisma.users.findUniqueOrThrow( {
+        where: {
+            email: userEmail
+        }
+    } )
+}
 export const createUser = async ( userData ) => {
     return prisma.users.create( { data: { ...userData } } )
 }
