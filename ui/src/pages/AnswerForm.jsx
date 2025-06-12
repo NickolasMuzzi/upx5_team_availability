@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 const AnswerForm = ({ className, questions }) => {
   const [initialValues, setInitialValues] = useState();
   const [hints, setHints] = useState(false);
+  const [loading, setLoading] = useState(true);
   const qsts = {
     productivity: questionsProductivity,
     security: questionsSecurity,
@@ -36,10 +37,13 @@ const AnswerForm = ({ className, questions }) => {
     if (existentData) {
       setInitialValues(JSON.parse(existentData));
       setHints(true);
+    } else {
+      setInitialValues({});
     }
+    setLoading(false);
   }, [questions]);
 
-  if (!initialValues) {
+  if (loading) {
     return <>Loading...</>;
   }
   return (
@@ -64,7 +68,10 @@ const AnswerForm = ({ className, questions }) => {
                         <div className="options">
                           <div>
                             <input
-                              disabled={initialValues != null}
+                              disabled={
+                                initialValues &&
+                                Object.keys(initialValues).length > 0
+                              }
                               onChange={() =>
                                 setFieldValue(`answer-${quest.id}`, "sim")
                               }
@@ -76,7 +83,10 @@ const AnswerForm = ({ className, questions }) => {
                           </div>
                           <div>
                             <input
-                              disabled={initialValues != null}
+                              disabled={
+                                initialValues &&
+                                Object.keys(initialValues).length > 0
+                              }
                               onChange={() =>
                                 setFieldValue(
                                   `answer-${quest.id}`,
@@ -93,7 +103,10 @@ const AnswerForm = ({ className, questions }) => {
                           </div>
                           <div>
                             <input
-                              disabled={initialValues != null}
+                              disabled={
+                                initialValues &&
+                                Object.keys(initialValues).length > 0
+                              }
                               onChange={() =>
                                 setFieldValue(`answer-${quest.id}`, "não")
                               }
